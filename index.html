@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Весільне запрошення - Ольга та Євген</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="#hero" class="nav-link">Запрошення</a>
+        <a href="#details" class="nav-link">Деталі</a>
+        <a href="#location" class="nav-link">Локація</a>
+        <a href="#timing" class="nav-link">Таймінг</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Запрошуємо відсвяткувати наш особливий день разом
+        </h1>
+        <div class="hero-image">
+          <img
+            src="./public/photo_2025-06-11_11-18-47.jpg"
+            alt="Hero illustration"
+          />
+        </div>
+        <h2 class="couple-names">З любов'ю, Ольга та Євген</h2>
+        <p class="hero-subtitle">
+          І ви запрошені відсвяткувати наш особливий день разом з нами.
+        </p>
+        <button class="cta-button" onclick="scrollToSection('details')">
+          Приєднуйтесь до нас
+        </button>
+      </div>
+    </section>
+
+    <!-- Details Section -->
+    <section id="details" class="details">
+      <div class="container">
+        <h2 class="section-title">Ми з нетерпінням чекаємо на цей день</h2>
+        <div class="details-content">
+          <div class="details-text">
+            <p>
+              Наше свято відбуватиметься на відкритій терасі вище неба зі
+              студіями всередині!
+            </p>
+            <p>
+              Ми завжди любили проводити час на свіжому повітрі — чи то під час
+              прогулянок Києвом, чи просто насолоджуючись пікніком у парку. Тому
+              в ці мінливі часи ми вирішили влаштувати весільне святкування в
+              одній із камерних та відомих локацій міста Києва — на Лівому
+              березі Дніпра.
+            </p>
+            <p>
+              Ми обміняємося обітницями серед природної краси київських
+              горизонтів, а потім продовжимо святкування з танцями, напоями та
+              смачною їжею.
+            </p>
+            <p>
+              Ми з нетерпінням чекаємо на можливість розділити цей особливий
+              день із нашими рідними та друзями під відкритим небом.
+            </p>
+            <p class="note">(Бажано взяти зручне взуття — є сходинки.)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="countdown-section">
+      <div class="container">
+        <div class="countdown" id="countdown">
+          <div class="countdown-item">
+            <span class="countdown-number" id="days">27</span>
+            <span class="countdown-label">ДНІ</span>
+          </div>
+          <span class="countdown-separator">:</span>
+          <div class="countdown-item">
+            <span class="countdown-number" id="hours">05</span>
+            <span class="countdown-label">ЧАСИ</span>
+          </div>
+          <span class="countdown-separator">:</span>
+          <div class="countdown-item">
+            <span class="countdown-number" id="minutes">36</span>
+            <span class="countdown-label">ХВИЛИНИ</span>
+          </div>
+          <span class="countdown-separator">:</span>
+          <div class="countdown-item">
+            <span class="countdown-number" id="seconds">40</span>
+            <span class="countdown-label">СЕКУНДИ</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="location">
+      <div class="container">
+        <h2 class="section-title-big">11 Липня - це наш день</h2>
+        <p class="section-title">О, саме там ми скажемо «так».</p>
+        <div class="location-card">
+          <img src="./public/location.webp" alt="Location image" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Invitation Section -->
+    <section class="invitation">
+      <div class="container">
+        <h2 class="section-title">Ви запрошені.</h2>
+        <p class="invitation-rsvp">Будь ласка, дайте відповідь до 01 липня.</p>
+        <div class="invitation-details">
+          <div class="date-time">
+            <span class="date">11.07.2025</span>
+            <span class="time">10:30AM</span>
+          </div>
+          <div class="venue">
+            <a
+              href="https://maps.google.com/maps?q=вулиця+Ованеса+Туманяна,15,Київ,Україна,02000"
+              target="_blank"
+              class="venue-link"
+              >7sky Photostudio</a
+            >
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button class="btn-primary">Запрошення</button>
+          <button class="btn-secondary">Підтвердження</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timing Section -->
+    <section id="timing" class="timing">
+      <div class="container">
+        <h2 class="section-title">Святковий таймінг:</h2>
+        <div class="timing-schedule">
+          <div class="timing-item">
+            <span class="timing-time">11:30</span>
+            <span class="timing-event">Welcome drinks, приїзд гостей</span>
+          </div>
+          <div class="timing-item">
+            <span class="timing-time">12:00</span>
+            <span class="timing-event">офіційна церемонія</span>
+          </div>
+          <div class="timing-item">
+            <span class="timing-time">13:00</span>
+            <span class="timing-event">початок банкету</span>
+          </div>
+          <div class="timing-item">
+            <span class="timing-time">17:00</span>
+            <span class="timing-event">закінчення свята</span>
+          </div>
+        </div>
+        <div class="timing-nav">
+          <span>Запрошення</span>
+          <span>Підтвердження</span>
+          <span>Таймінг</span>
+        </div>
+        <p class="closing-message">З нетерпінням чекаємо на вас.</p>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
