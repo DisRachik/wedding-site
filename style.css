@@ -10,6 +10,8 @@ body {
   line-height: 1.6;
   color: #333;
   scroll-behavior: smooth;
+  background: url('./public/bg.webp') center/cover no-repeat fixed;
+  min-height: 100vh;
 }
 
 .container {
@@ -81,13 +83,20 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f8f6f4 0%, #f0ede8 100%);
+  background: linear-gradient(
+      rgba(248, 246, 244, 0.6),
+      rgba(240, 237, 232, 0.6)
+    ),
+    url('./public/hero.webp') center/cover no-repeat;
   text-align: center;
   padding: 100px 20px 50px;
+  position: relative;
 }
 
 .hero-content {
   max-width: 800px;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-title {
@@ -143,7 +152,8 @@ h3 {
 /* Details Section */
 .details {
   padding: 100px 0;
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
 }
 
 .section-title {
@@ -196,10 +206,11 @@ h3 {
 
 .countdown-item {
   text-align: center;
-  background: white;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
   padding: 30px 20px;
   border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   min-width: 120px;
 }
 
@@ -229,12 +240,14 @@ h3 {
 /* Location Section */
 .location {
   padding: 100px 0;
-  background: white;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
 }
 
 .location-card {
   text-align: center;
-  margin-top: 40px;
+  margin: 40px auto 0;
+  max-width: 1200px;
 }
 
 .location-card img {
@@ -246,85 +259,432 @@ h3 {
 
 /* Invitation Section */
 .invitation {
-  padding: 100px 0;
-  background: linear-gradient(135deg, #8b4b6b, #d4a574);
-  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url('./public/bg-invite.jpg') center/cover no-repeat fixed;
+  padding: 100px 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.invitation-card {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 600px;
+  perspective: 1000px;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  backface-visibility: hidden;
+  transition: transform 0.8s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
+  color: #333;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.invitation-card.flipped .card-front {
+  transform: rotateY(-180deg);
+}
+
+.invitation-card.flipped .card-back {
+  transform: rotateY(0deg);
 }
 
 .invitation .section-title {
-  color: white;
+  color: #8b4b6b;
+  margin-bottom: 20px;
+  font-size: 2rem;
 }
 
 .invitation-rsvp {
-  font-size: 1.2rem;
-  margin-bottom: 40px;
-  opacity: 0.9;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: #666;
 }
 
 .invitation-details {
-  margin: 40px 0;
+  margin: 30px 0;
 }
 
 .date-time {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
   font-weight: 600;
+  color: #8b4b6b;
+}
+
+.venue {
+  margin-bottom: 10px;
 }
 
 .venue-link {
-  color: white;
+  color: #8b4b6b;
   text-decoration: underline;
-  font-size: 1.2rem;
-  transition: opacity 0.3s ease;
+  font-size: 1rem;
+  transition: color 0.3s ease;
 }
 
 .venue-link:hover {
-  opacity: 0.8;
+  color: #d4a574;
 }
 
 .action-buttons {
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  margin-top: 30px;
 }
 
-.btn-primary,
-.btn-secondary {
-  padding: 15px 30px;
-  border: 2px solid white;
+.btn-primary {
+  background: linear-gradient(135deg, #8b4b6b, #d4a574);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.1rem;
   border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(139, 75, 107, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(139, 75, 107, 0.4);
+  background: linear-gradient(135deg, #9d5577, #e0b680);
+}
+
+/* RSVP Form Styles */
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #8b4b6b;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #8b4b6b;
+}
+
+.additional-guests {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Additional guests container */
+.additional-guests-container {
+  margin-top: 1rem;
+}
+
+.additional-guest-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 165, 116, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.additional-guest-item input[type='text'] {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.additional-guest-item input[type='text']:focus {
+  outline: none;
+  border-color: #8b4b6b;
+}
+
+.additional-guest-item input[type='text']::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.additional-guest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.additional-guest-header label {
+  font-size: 0.9rem;
+  color: #d4a574;
+  font-weight: 600;
+  margin: 0;
+}
+
+.btn-remove-guest {
+  background: transparent;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  font-size: 1.2rem;
+  padding: 2px 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-remove-guest:hover {
+  background: #dc3545;
+  color: white;
+  transform: scale(1.1);
+}
+
+.btn-add-guest:disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-add-guest:disabled:hover {
+  background: #ccc;
+  transform: none;
+}
+
+.guest-count-info {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+  display: block;
+  text-align: center;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-back,
+.btn-submit {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.btn-primary {
-  background: white;
-  color: #8b4b6b;
+.btn-back {
+  background: #e0e0e0;
+  color: #666;
 }
 
-.btn-primary:hover {
-  background: transparent;
+.btn-back:hover {
+  background: #d0d0d0;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #8b4b6b, #d4a574);
   color: white;
 }
 
-.btn-secondary {
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(139, 75, 107, 0.3);
+}
+
+/* Radio buttons styling */
+.radio-group {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  border: 2px solid #e0e0e0;
+  flex: 1;
+  min-width: 200px;
+}
+
+.radio-option:hover {
+  background: rgba(139, 75, 107, 0.1);
+  border-color: #8b4b6b;
+}
+
+.radio-option input[type='radio'] {
+  margin: 0;
+  accent-color: #8b4b6b;
+}
+
+.radio-option input[type='radio']:checked + .radio-text {
+  color: #8b4b6b;
+  font-weight: 600;
+}
+
+.radio-text {
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+/* Mobile responsive for radio buttons */
+@media (max-width: 768px) {
+  .radio-group {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .radio-option {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .additional-guest-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .btn-remove-guest {
+    align-self: flex-end;
+  }
+
+  .additional-guest-item input[type='text'] {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+
+/* Extra small devices (very small phones, less than 360px) */
+@media (max-width: 360px) {
+  .nav-container {
+    gap: 3px;
+    padding: 0 3px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .nav-link {
+    font-size: 0.7rem;
+    padding: 2px 4px;
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .navbar {
+    padding: 8px 0;
+  }
+}
+
+/* Additional guest styling */
+.additional-guest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.btn-add-guest,
+.btn-remove-guest {
   background: transparent;
+  border: 2px solid #8b4b6b;
+  color: #8b4b6b;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-add-guest:hover,
+.btn-remove-guest:hover {
+  background: #8b4b6b;
   color: white;
 }
 
-.btn-secondary:hover {
-  background: white;
-  color: #8b4b6b;
+.guest-controls {
+  text-align: center;
+}
+
+.radio-option input[type='radio'] {
+  width: 18px;
+  height: 18px;
+  accent-color: #8b4b6b;
+  cursor: pointer;
+}
+
+.radio-text {
+  font-size: 0.95rem;
+  color: #333;
+  cursor: pointer;
 }
 
 /* Wedding Day Section */
 .wedding-day {
   padding: 80px 0;
-  background: white;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
   text-align: center;
 }
 
@@ -365,7 +725,50 @@ h3 {
   font-weight: 700;
 }
 
-.timing-nav {
+/* Photos Section */
+.photos {
+  padding: 0;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  width: 100%;
+}
+
+.photo-item {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.photo-item:hover {
+  transform: scale(1.05);
+  z-index: 10;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+}
+
+.photo-item img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+/* Footer */
+.footer {
+  padding: 60px 0 40px;
+  background: linear-gradient(135deg, #8b4b6b, #d4a574);
+  color: white;
+  text-align: center;
+}
+
+.footer-nav {
   display: flex;
   justify-content: center;
   gap: 40px;
@@ -373,29 +776,37 @@ h3 {
   flex-wrap: wrap;
 }
 
-.timing-nav span {
-  color: #8b4b6b;
+.footer-nav span {
+  color: white;
   font-weight: 500;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.timing-nav span:hover {
-  color: #d4a574;
+.footer-nav span:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
-.closing-message {
-  text-align: center;
+.footer-message {
   font-size: 1.2rem;
-  color: #8b4b6b;
   font-weight: 500;
   font-style: italic;
+  opacity: 0.9;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .nav-container {
-    gap: 20px;
+    gap: 15px;
+    padding: 0 10px;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
   }
 
   .hero-title {
@@ -430,13 +841,64 @@ h3 {
     align-items: center;
   }
 
-  .btn-primary,
-  .btn-secondary {
+  .btn-primary {
     min-width: 200px;
+  }
+
+  .photos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+
+  .footer-nav {
+    gap: 20px;
+  }
+
+  .location-card {
+    max-width: 600px;
+    margin: 40px auto 0;
+  }
+
+  .invitation {
+    padding: 60px 0;
+    min-height: auto;
+  }
+
+  .invitation-card {
+    max-width: 600px;
+    height: auto;
+    min-height: 500px;
+    padding: 0;
+    margin: 0 20px;
+  }
+
+  .card-front,
+  .card-back {
+    padding: 30px 20px;
+  }
+
+  .invitation .section-title {
+    font-size: 1.5rem;
+  }
+
+  .rsvp-form {
+    max-height: 400px;
   }
 }
 
 @media (max-width: 480px) {
+  .nav-container {
+    gap: 8px;
+    padding: 0 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-link {
+    font-size: 0.8rem;
+    padding: 5px;
+  }
+
   .hero-title {
     font-size: 2rem;
   }
@@ -460,6 +922,54 @@ h3 {
 
   .countdown-number {
     font-size: 2rem;
+  }
+
+  .photos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+
+  .footer-nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .location-card {
+    max-width: calc(100% - 20px);
+    margin: 40px 10px 0;
+  }
+
+  .footer-nav span {
+    min-width: 150px;
+    text-align: center;
+  }
+
+  .invitation {
+    padding: 40px 0;
+    min-height: auto;
+  }
+
+  .invitation-card {
+    max-width: calc(100% - 20px);
+    height: auto;
+    min-height: 450px;
+    padding: 0;
+    margin: 0 10px;
+  }
+
+  .card-front,
+  .card-back {
+    padding: 25px 15px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .btn-back,
+  .btn-submit {
+    width: 100%;
   }
 }
 
