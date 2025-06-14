@@ -14,9 +14,11 @@
     <!-- Navigation -->
     <nav class="navbar">
       <div class="nav-container">
-        <a href="#hero" class="nav-link">Запрошення</a>
+        <a href="#hero" class="nav-link">Головна</a>
         <a href="#details" class="nav-link">Деталі</a>
         <a href="#location" class="nav-link">Локація</a>
+        <a href="#invitation" class="nav-link">Запрошення</a>
+        <a href="#photos" class="nav-link">Фото</a>
         <a href="#timing" class="nav-link">Таймінг</a>
       </div>
     </nav>
@@ -114,27 +116,108 @@
     </section>
 
     <!-- Invitation Section -->
-    <section class="invitation">
-      <div class="container">
-        <h2 class="section-title">Ви запрошені.</h2>
-        <p class="invitation-rsvp">Будь ласка, дайте відповідь до 01 липня.</p>
-        <div class="invitation-details">
-          <div class="date-time">
-            <span class="date">11.07.2025</span>
-            <span class="time">10:30AM</span>
+    <section id="invitation" class="invitation">
+      <div class="invitation-card">
+        <div class="card-front">
+          <h2 class="section-title">Ви запрошені.</h2>
+          <p class="invitation-rsvp">
+            Будь ласка, дайте відповідь до 01 липня.
+          </p>
+          <div class="invitation-details">
+            <div class="date-time">
+              <span class="date">11.07.2025</span>
+              <span class="time">10:30AM</span>
+            </div>
+            <div class="venue">
+              <a
+                href="https://maps.google.com/maps?q=вулиця+Ованеса+Туманяна,15,Київ,Україна,02000"
+                target="_blank"
+                class="venue-link"
+                >7sky Photostudio</a
+              >
+            </div>
+            <div class="venue">
+              <a
+                href="https://maps.google.com/maps?q=вулиця+Ованеса+Туманяна,15,Київ,Україна,02000"
+                target="_blank"
+                class="venue-link"
+                >Київ, вул. Ованеса Туманяна, 15
+              </a>
+            </div>
           </div>
-          <div class="venue">
-            <a
-              href="https://maps.google.com/maps?q=вулиця+Ованеса+Туманяна,15,Київ,Україна,02000"
-              target="_blank"
-              class="venue-link"
-              >7sky Photostudio</a
-            >
+          <div class="action-buttons">
+            <button class="btn-primary" onclick="flipCard()">
+              Підтвердження
+            </button>
           </div>
         </div>
-        <div class="action-buttons">
-          <button class="btn-primary">Запрошення</button>
-          <button class="btn-secondary">Підтвердження</button>
+
+        <div class="card-back">
+          <h2 class="section-title">Щиро запрошуємо вас на наше весілля.</h2>
+          <form class="rsvp-form" onsubmit="submitRSVP(event)">
+            <div class="form-group">
+              <label>Ваша відповідь *</label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input
+                    type="radio"
+                    name="attendance"
+                    value="yes"
+                    required
+                    onchange="toggleGuestCount()"
+                  />
+                  <span class="radio-text">Із радістю приймємо запрошення</span>
+                </label>
+                <label class="radio-option">
+                  <input
+                    type="radio"
+                    name="attendance"
+                    value="no"
+                    required
+                    onchange="toggleGuestCount()"
+                  />
+                  <span class="radio-text">На жаль, змушений відмовити</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="guestName">Ім'я та прізвище *</label>
+              <input type="text" id="guestName" name="guestName" required />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="phoneNumber">Номер телефону *</label>
+              <input type="tel" id="phoneNumber" name="phoneNumber" required />
+            </div>
+
+            <div class="additional-guests-container" style="display: none">
+              <!-- Dynamic guest inputs will be added here -->
+            </div>
+
+            <div class="form-group guest-controls" style="display: none">
+              <button
+                type="button"
+                class="btn-add-guest"
+                onclick="addAdditionalGuest()"
+              >
+                + Додати гостя
+              </button>
+              <span class="guest-count-info">Можна додати до 5 гостей</span>
+            </div>
+
+            <div class="form-buttons">
+              <button type="button" class="btn-back" onclick="flipCard()">
+                Назад
+              </button>
+              <button type="submit" class="btn-submit">Відправити</button>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -161,14 +244,38 @@
             <span class="timing-event">закінчення свята</span>
           </div>
         </div>
-        <div class="timing-nav">
-          <span>Запрошення</span>
-          <span>Підтвердження</span>
-          <span>Таймінг</span>
-        </div>
-        <p class="closing-message">З нетерпінням чекаємо на вас.</p>
       </div>
     </section>
+
+    <!-- Photos Section -->
+    <section id="photos" class="photos">
+      <div class="photos-grid">
+        <div class="photo-item">
+          <img src="./public/item-1.webp" alt="Фото 1" />
+        </div>
+        <div class="photo-item">
+          <img src="./public/item-2.webp" alt="Фото 2" />
+        </div>
+        <div class="photo-item">
+          <img src="./public/item-3.webp" alt="Фото 3" />
+        </div>
+        <div class="photo-item">
+          <img src="./public/item-4.webp" alt="Фото 4" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-nav">
+          <span onclick="scrollToSection('hero')">Головна</span>
+          <span onclick="handleRSVP()">Запрошення</span>
+          <span onclick="scrollToSection('timing')">Таймінг</span>
+        </div>
+        <p class="footer-message">З нетерпінням чекаємо на вас.</p>
+      </div>
+    </footer>
 
     <script src="script.js"></script>
   </body>

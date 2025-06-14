@@ -65,7 +65,14 @@ function handleNavScroll() {
 
 // Active navigation link highlighting
 function setActiveNavLink() {
-  const sections = ['hero', 'details', 'location', 'timing'];
+  const sections = [
+    'hero',
+    'details',
+    'location',
+    'invitation',
+    'photos',
+    'timing',
+  ];
   const navLinks = document.querySelectorAll('.nav-link');
 
   window.addEventListener('scroll', () => {
@@ -123,18 +130,6 @@ function animateOnScroll() {
 
 // Button click handlers
 function setupButtonHandlers() {
-  // RSVP buttons
-  const rsvpButtons = document.querySelectorAll('.btn-primary, .btn-secondary');
-  rsvpButtons.forEach(button => {
-    button.addEventListener('click', e => {
-      if (button.textContent.includes('Підтвердження')) {
-        handleRSVP();
-      } else if (button.textContent.includes('Запрошення')) {
-        scrollToSection('hero');
-      }
-    });
-  });
-
   // Navigation links
   document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', e => {
@@ -145,17 +140,196 @@ function setupButtonHandlers() {
   });
 }
 
-// RSVP handler
+// RSVP handler for footer button
 function handleRSVP() {
-  const confirmed = confirm(
-    'Ви підтверджуєте свою присутність на весіллі 11 липня 2025 року?'
+  scrollToSection('invitation');
+}
+
+// Card flip functionality
+function flipCard() {
+  const card = document.querySelector('.invitation-card');
+  if (card) {
+    card.classList.toggle('flipped');
+  }
+}
+
+// Toggle guest count visibility
+function toggleGuestCount() {
+  const attendance = document.querySelector(
+    'input[name="attendance"]:checked'
+  )?.value;
+  const guestControls = document.querySelector('.guest-controls');
+  const additionalGuestsContainer = document.querySelector(
+    '.additional-guests-container'
   );
 
-  if (confirmed) {
-    alert('Дякуємо за підтвердження! Ми з нетерпінням чекаємо на вас! 💕');
+  if (attendance === 'yes') {
+    if (guestControls) guestControls.style.display = 'flex';
   } else {
-    alert('Дякуємо за відповідь. Нам буде вас не вистачати! 💔');
+    if (guestControls) guestControls.style.display = 'none';
+    if (additionalGuestsContainer) {
+      additionalGuestsContainer.style.display = 'none';
+      // Clear all additional guests
+      additionalGuestsContainer.innerHTML = '';
+      updateAddGuestButton();
+    }
   }
+}
+
+// Add additional guest field
+function addAdditionalGuest() {
+  const additionalGuestsContainer = document.querySelector(
+    '.additional-guests-container'
+  );
+  const currentGuests = additionalGuestsContainer.querySelectorAll(
+    '.additional-guest-item'
+  ).length;
+
+  if (currentGuests >= 5) {
+    alert('Максимум 5 додаткових гостей');
+    return;
+  }
+
+  const guestNumber = currentGuests + 1;
+  const guestId = `additionalGuest${guestNumber}`;
+
+  const guestItem = document.createElement('div');
+  guestItem.className = 'additional-guest-item';
+  guestItem.innerHTML = `
+    <div class="additional-guest-header">
+      <label for="${guestId}">Додатковий гість ${guestNumber}</label>
+      <button type="button" class="btn-remove-guest" onclick="removeAdditionalGuest('${guestId}')">×</button>
+    </div>
+    <input type="text" id="${guestId}" name="${guestId}" placeholder="Ім'я та прізвище гостя ${guestNumber}" required>
+  `;
+
+  additionalGuestsContainer.appendChild(guestItem);
+  additionalGuestsContainer.style.display = 'block';
+
+  updateAddGuestButton();
+}
+
+// Remove specific additional guest field
+function removeAdditionalGuest(guestId) {
+  const guestItem = document
+    .getElementById(guestId)
+    .closest('.additional-guest-item');
+  if (guestItem) {
+    guestItem.remove();
+  }
+
+  const additionalGuestsContainer = document.querySelector(
+    '.additional-guests-container'
+  );
+  const remainingGuests = additionalGuestsContainer.querySelectorAll(
+    '.additional-guest-item'
+  );
+
+  if (remainingGuests.length === 0) {
+    additionalGuestsContainer.style.display = 'none';
+  } else {
+    // Renumber remaining guests
+    remainingGuests.forEach((guest, index) => {
+      const newNumber = index + 1;
+      const input = guest.querySelector('input');
+      const label = guest.querySelector('label');
+      const removeBtn = guest.querySelector('.btn-remove-guest');
+
+      const newId = `additionalGuest${newNumber}`;
+      input.id = newId;
+      input.name = newId;
+      input.placeholder = `Ім'я та прізвище гостя ${newNumber}`;
+      label.htmlFor = newId;
+      label.textContent = `Додатковий гість ${newNumber}`;
+      removeBtn.onclick = () => removeAdditionalGuest(newId);
+    });
+  }
+
+  updateAddGuestButton();
+}
+
+// Update add guest button state
+function updateAddGuestButton() {
+  const additionalGuestsContainer = document.querySelector(
+    '.additional-guests-container'
+  );
+  const addButton = document.querySelector('.btn-add-guest');
+  const guestInfo = document.querySelector('.guest-count-info');
+  const currentGuests = additionalGuestsContainer.querySelectorAll(
+    '.additional-guest-item'
+  ).length;
+
+  if (currentGuests >= 5) {
+    addButton.disabled = true;
+    addButton.textContent = 'Максимум гостей досягнуто';
+    guestInfo.textContent = 'Досягнуто максимум (5 гостей)';
+  } else {
+    addButton.disabled = false;
+    addButton.textContent = '+ Додати гостя';
+    guestInfo.textContent = `Можна додати до ${5 - currentGuests} гостей`;
+  }
+}
+
+// Submit RSVP form
+function submitRSVP(event) {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+  const data = Object.fromEntries(formData.entries());
+
+  // Prepare message for Telegram
+  let message = '🎉 НОВЕ ПІДТВЕРДЖЕННЯ ВЕСІЛЛЯ 🎉\n\n';
+  message += "👤 Ім'я: " + data.guestName + '\n';
+  message += '📧 Email: ' + data.email + '\n';
+  message += '📱 Телефон: ' + data.phoneNumber + '\n';
+  message +=
+    '✅ Відповідь: ' +
+    (data.attendance === 'yes'
+      ? 'Із радістю приймємо запрошення'
+      : 'На жаль, змушений відмовити') +
+    '\n';
+
+  // Add all additional guests
+  const additionalGuests = [];
+  for (let i = 1; i <= 5; i++) {
+    const guestName = data[`additionalGuest${i}`];
+    if (guestName) {
+      additionalGuests.push(guestName);
+    }
+  }
+
+  if (additionalGuests.length > 0) {
+    message += '👥 Додаткові гості:\n';
+    additionalGuests.forEach((guest, index) => {
+      message += `   ${index + 1}. ${guest}\n`;
+    });
+  }
+
+  message += '\n📅 Дата подачі: ' + new Date().toLocaleString('uk-UA');
+
+  // Here you would send the message to Telegram
+  // For now, we'll show it in console
+  console.log('Telegram message:', message);
+
+  // Reset form and flip back
+  event.target.reset();
+  // Clear additional guests
+  const additionalGuestsContainer = document.querySelector(
+    '.additional-guests-container'
+  );
+  if (additionalGuestsContainer) {
+    additionalGuestsContainer.innerHTML = '';
+    additionalGuestsContainer.style.display = 'none';
+  }
+  // Hide guest controls
+  const guestControls = document.querySelector('.guest-controls');
+  if (guestControls) guestControls.style.display = 'none';
+
+  updateAddGuestButton();
+  flipCard();
+
+  // TODO: Add actual Telegram Bot API call here
+  // sendToTelegram(message);
 }
 
 // Parallax effect for hero section
@@ -228,6 +402,39 @@ function createFloatingHearts() {
 
   // Create hearts periodically
   setInterval(createHeart, 3000);
+}
+
+// Function to send message to Telegram (to be implemented)
+function sendToTelegram(message) {
+  // This would require a Telegram Bot Token and Chat ID
+  // Example implementation:
+  /*
+  const botToken = 'YOUR_BOT_TOKEN';
+  const chatId = 'YOUR_CHAT_ID';
+  
+  fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: message,
+      parse_mode: 'HTML'
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.ok) {
+      console.log('Message sent to Telegram successfully');
+    } else {
+      console.error('Error sending message to Telegram:', data);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+  */
 }
 
 // Initialize all functionality when DOM is loaded
