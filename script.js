@@ -271,7 +271,7 @@ function updateAddGuestButton() {
 }
 
 // Submit RSVP form
-function submitRSVP(event) {
+async function submitRSVP(event) {
   event.preventDefault();
 
   const formData = new FormData(event.target);
@@ -307,9 +307,25 @@ function submitRSVP(event) {
 
   message += '\n📅 Дата подачі: ' + new Date().toLocaleString('uk-UA');
 
-  // Here you would send the message to Telegram
-  // For now, we'll show it in console
+  // Send message to Telegram
   console.log('Telegram message:', message);
+
+  try {
+    const result = await sendToTelegram(message);
+
+    if (result.success) {
+      // Show success message
+      alert('Дякуємо! Ваше підтвердження успішно відправлено.');
+    } else {
+      // Show error message
+      alert(
+        "Виникла помилка при відправці. Спробуйте ще раз або зв'яжіться з нами."
+      );
+    }
+  } catch (error) {
+    console.error('Error submitting RSVP:', error);
+    alert("Виникла помилка при відправці. Перевірте інтернет-з'єднання.");
+  }
 
   // Reset form and flip back
   event.target.reset();
@@ -327,9 +343,6 @@ function submitRSVP(event) {
 
   updateAddGuestButton();
   flipCard();
-
-  // TODO: Add actual Telegram Bot API call here
-  // sendToTelegram(message);
 }
 
 // Parallax effect for hero section
@@ -404,37 +417,40 @@ function createFloatingHearts() {
   setInterval(createHeart, 3000);
 }
 
-// Function to send message to Telegram (to be implemented)
-function sendToTelegram(message) {
-  // This would require a Telegram Bot Token and Chat ID
-  // Example implementation:
-  /*
-  const botToken = 'YOUR_BOT_TOKEN';
-  const chatId = 'YOUR_CHAT_ID';
-  
-  fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: message,
-      parse_mode: 'HTML'
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
+// Function to send message to Telegram
+async function sendToTelegram(message) {
+  const botToken = '7038484036:AAGsqd2Xb3ffK3WL-AiigT_ybtlxMJxb21Y';
+  const chatId = '-4829227201';
+
+  try {
+    const response = await fetch(
+      `https://api.telegram.org/bot${botToken}/sendMessage`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'HTML',
+        }),
+      }
+    );
+
+    const data = await response.json();
+
     if (data.ok) {
       console.log('Message sent to Telegram successfully');
+      return { success: true, data };
     } else {
       console.error('Error sending message to Telegram:', data);
+      return { success: false, error: data };
     }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-  */
+  } catch (error) {
+    console.error('Network error:', error);
+    return { success: false, error: error.message };
+  }
 }
 
 // Initialize all functionality when DOM is loaded
