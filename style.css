@@ -288,7 +288,7 @@ h3 {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(15px);
   border-radius: 20px;
-  padding: 40px;
+  padding: 30px 40px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   backface-visibility: hidden;
   transition: transform 0.8s ease;
