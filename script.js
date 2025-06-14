@@ -420,7 +420,7 @@ function createFloatingHearts() {
 // Function to send message to Telegram
 async function sendToTelegram(message) {
   const botToken = '7038484036:AAGsqd2Xb3ffK3WL-AiigT_ybtlxMJxb21Y';
-  const chatId = '-4829227201';
+  const chatId = '-1002692669725';
 
   try {
     const response = await fetch(
